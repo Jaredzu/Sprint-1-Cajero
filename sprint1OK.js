@@ -3,6 +3,7 @@
 // USAR LA FUNCION "RUN()" CUANTAS VECES SE DESEE PARA VOLVER A EJECUTAR //
 
 console.log("Bienvenido al Cajero JS")
+alert(`Ejecute la función "run()" en la consola para iniciar`)
 
 let datos = [
     {
@@ -11,7 +12,7 @@ let datos = [
         contraseña: 123,
         tipoDeUsuario: 1,
     }, {
-        nombre: "Cliente1",
+        nombre: "Cliente",
         documento: 54321,
         contraseña: 456,
         tipoDeUsuario: 2,
@@ -26,7 +27,7 @@ let cajero = [
     { billetes100: 0 }
 ]
 
-let totalPorDenominacion = []
+let totalPorDenominacion = []                       // Array de valores de los billetes
 
 let billetesExtraidos = [0, 0, 0, 0, 0]             // Array de billetes que estoy sacando
 
@@ -73,7 +74,7 @@ function run() {
         console.log("El cajero está cargado")
     }
 
-    //          AQUÍ EMPIEZA EL CAJERO CON TODO             //
+    //          AQUÍ LOS PERMISOS PARA CADA USUARIO DEL CAJERO             //
 
     function adminLog() {
         llenarCajero()
@@ -101,38 +102,47 @@ function run() {
 
             dineroARetirar = parseInt(dineroARetirar / 5000) * 5000 // Esta fórmula redondea el valor ingresado
 
+            console.log(`El valor a retirar es de ${dineroARetirar}`)
+            alert(`El valor a retirar es de ${dineroARetirar}`)
+
+            console.log("Retirando...")
 
             if (dineroARetirar > totalGeneral) {
-                alert("El monto solicitado excede la cantidad disponible")
+                console.log(`El monto solicitado excede la cantidad disponible, ejecute "run()" en la consola de nuevo`)
+                alert(`El monto solicitado excede la cantidad disponible, ejecute "run()" en la consola de nuevo`)
             } else {
-                console.log("Retirando...")
-                
+
                 totalGeneral = totalGeneral - dineroARetirar
                 let dineroExtraido = false
                 while (dineroExtraido === false) {                    // De cuales y cuantos billetes entrega el dinero
 
                     if (dineroARetirar >= 100000 && cajero[4].billetes100 > 0) {  // que haya suficiente dinero && que haya suficientes billetes de esa denominación
                         dineroARetirar = dineroARetirar - 100000
+                        totalPorDenominacion[4] = totalPorDenominacion[4] - 100000   // resto el valor de cada billete
                         cajero[4].billetes100 = cajero[4].billetes100 - 1
                         billetesExtraidos[4] = billetesExtraidos[4] + 1        // Sumo cada billete que sale en un Array
                     }
                     else if (dineroARetirar >= 50000 && cajero[3].billetes50 > 0) {
                         dineroARetirar = dineroARetirar - 50000
+                        totalPorDenominacion[3] = totalPorDenominacion[3] - 50000
                         cajero[3].billetes50 = cajero[3].billetes50 - 1
                         billetesExtraidos[3] = billetesExtraidos[3] + 1
                     }
                     else if (dineroARetirar >= 20000 && cajero[2].billetes20 > 0) {
                         dineroARetirar = dineroARetirar - 20000
+                        totalPorDenominacion[2] = totalPorDenominacion[2] - 20000
                         cajero[2].billetes20 = cajero[2].billetes20 - 1
                         billetesExtraidos[2] = billetesExtraidos[2] + 1
                     }
                     else if (dineroARetirar >= 10000 && cajero[1].billetes10 > 0) {
                         dineroARetirar = dineroARetirar - 10000
+                        totalPorDenominacion[1] = totalPorDenominacion[1] - 10000
                         cajero[1].billetes10 = cajero[1].billetes10 - 1
                         billetesExtraidos[1] = billetesExtraidos[1] + 1
                     }
                     else if (dineroARetirar >= 5000 && cajero[0].billetes5 > 0) {
                         dineroARetirar = dineroARetirar - 5000
+                        totalPorDenominacion[0] = totalPorDenominacion[0] - 5000
                         cajero[0].billetes5 = cajero[0].billetes5 - 1
                         billetesExtraidos[0] = billetesExtraidos[0] + 1
                     }
@@ -161,13 +171,9 @@ function run() {
             }
         }
 
-
-
-
     }
 
-
-        //Sección Principal donde todo Ocurre//
+    //Sección Principal donde todo Ocurre//
     let usuarioExiste = true
 
     do {
@@ -179,7 +185,7 @@ function run() {
             adminLog()
 
         } else if (documento == 54321 && contraseña == 456) {
-            alert("Estás registrado, Bienvenido Cliente1")
+            alert("Estás registrado, Bienvenido Cliente")
             usuarioExiste = true
             clienteLog()
 
